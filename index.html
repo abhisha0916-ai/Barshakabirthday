@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>Barsha's Birthday 🎂</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
       margin: 0;
@@ -32,22 +32,52 @@
       font-size: 1rem;
       cursor: pointer;
     }
+    #countdown {
+      font-size: 2rem;
+      margin-top: 20px;
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
 
   <div class="container">
     <h1>🎉 Happy Birthday Barsha 🎉</h1>
+
     <div class="card">
-      <p>
-        Wishing you lots of happiness, smiles, and beautiful moments 💖  
-        May all your dreams come true ✨
-      </p>
+      <p>Wishing you lots of happiness, smiles, and beautiful moments 💖</p>
+      
+      <div id="countdown"></div>
+
       <button onclick="alert('🎂 Happy Birthday Barsha! 💝')">
         Click for Surprise 🎁
       </button>
     </div>
   </div>
+
+  <script>
+    // Birthday date: 31 Dec 2025
+    var birthday = new Date(2025, 11, 31, 0, 0, 0).getTime(); 
+
+    var countdownFunction = setInterval(function() {
+      var now = new Date().getTime();
+      var distance = birthday - now;
+
+      if (distance < 0) {
+        clearInterval(countdownFunction);
+        document.getElementById("countdown").innerHTML = "🎉 Happy Birthday Barsha! 🎉";
+        return;
+      }
+
+      var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      document.getElementById("countdown").innerHTML =
+        days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+    }, 1000);
+  </script>
 
 </body>
 </html>
