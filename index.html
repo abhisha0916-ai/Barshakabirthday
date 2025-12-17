@@ -120,7 +120,7 @@ body {
 <body>
 
 <div class="container">
-  <h1>🎉 Happy Birthday Barsha 🎉</h1>
+  <h1>#BARSHA KA BIRTHDAY 🎉🎉</h1>
 
   <div class="card">
     <div id="countdown">0d 0h 0m 0s</div>
@@ -141,31 +141,26 @@ body {
       </p>
     </div>
 
-    <!-- YouTube embed -->
-    <div style="margin-top:30px;">
-      <h3>🎵 Play “Naina” from Kucch Luv Jaisaa</h3>
-      <iframe width="300" height="180"
-        src="https://www.youtube.com/embed/PQyYXngcWg8"
-        title="Naina – Kucch Luv Jaisaa"
-        frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen>
-      </iframe>
-    </div>
   </div>
 </div>
 
 <!-- Birthday Message -->
 <div id="birthdayMessage">🎉 Happy Birthday Barsha! 🎉</div>
 
+<!-- Background music -->
+<audio id="birthdayMusic" autoplay loop style="display:none;">
+  <source src="https://cdn.pixabay.com/download/audio/2022/08/21/audio_32adfdf460.mp3?filename=birthday-wish-131904.mp3" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>
+
 <script>
-// Show countdown starting at 0 (even if past date)
+// Countdown
 var birthday = new Date(2025, 11, 31, 0, 0, 0).getTime();
 var countdown = document.getElementById("countdown");
 var excited = document.getElementById("excitedText");
 var birthdayMsg = document.getElementById("birthdayMessage");
 
-// Function to fade out countdown
+// Countdown fade out and show birthday
 function endCountdown(){
   countdown.style.opacity=0;
   excited.style.opacity=0;
@@ -185,7 +180,6 @@ function showBirthdayMessage(){
       birthdayMsg.style.bottom=pos+"px";
     }
   }
-  // Launch balloons
   for(let i=0;i<10;i++){
     createBalloon();
   }
@@ -226,7 +220,6 @@ var countdownFunction=setInterval(function(){
 
   if(distance<=0){
     clearInterval(countdownFunction);
-    // Countdown fade out
     endCountdown();
   }
 },1000);
@@ -242,4 +235,4 @@ window.onload=function(){
 </script>
 
 </body>
-  </html>
+</html>
