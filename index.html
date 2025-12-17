@@ -11,9 +11,12 @@
       background: linear-gradient(135deg, #ff6a88, #ff99ac);
       color: white;
       text-align: center;
+      overflow-x: hidden;
     }
     .container {
       padding: 40px 20px;
+      position: relative;
+      z-index: 1;
     }
     .card {
       background: rgba(255,255,255,0.2);
@@ -21,6 +24,8 @@
       padding: 25px;
       max-width: 420px;
       margin: auto;
+      position: relative;
+      z-index: 2;
     }
     button {
       margin-top: 20px;
@@ -37,9 +42,46 @@
       margin-top: 20px;
       font-weight: bold;
     }
+    /* Heart styles */
+    .heart {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: red;
+      transform: rotate(-45deg);
+      animation: float 5s linear infinite;
+      opacity: 0.8;
+      z-index: 0;
+    }
+    .heart::before,
+    .heart::after {
+      content: "";
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: red;
+      border-radius: 50%;
+    }
+    .heart::before {
+      top: -10px;
+      left: 0;
+    }
+    .heart::after {
+      top: 0;
+      left: 10px;
+    }
+    @keyframes float {
+      0% { transform: translateY(0) rotate(-45deg); opacity: 0.8; }
+      100% { transform: translateY(-600px) rotate(-45deg); opacity: 0; }
+    }
   </style>
 </head>
 <body>
+
+  <!-- Background Music -->
+  <audio autoplay loop>
+    <source src="https://cdn.pixabay.com/download/audio/2022/08/21/audio_32adfdf460.mp3?filename=birthday-wish-131904.mp3" type="audio/mpeg">
+  </audio>
 
   <div class="container">
     <h1>🎉 Happy Birthday Barsha 🎉</h1>
@@ -77,6 +119,17 @@
       document.getElementById("countdown").innerHTML =
         days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
     }, 1000);
+
+    // Create floating hearts
+    function createHeart() {
+      var heart = document.createElement('div');
+      heart.className = 'heart';
+      heart.style.left = Math.random() * window.innerWidth + 'px';
+      heart.style.animationDuration = (3 + Math.random() * 3) + 's';
+      document.body.appendChild(heart);
+      setTimeout(() => { heart.remove(); }, 5000);
+    }
+    setInterval(createHeart, 300);
   </script>
 
 </body>
