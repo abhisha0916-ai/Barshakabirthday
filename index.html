@@ -11,9 +11,6 @@ body {
   font-family: 'Lobster', cursive;
   background: url('https://raw.githubusercontent.com/abhisha0916-ai/Barshakabirthday/main/IMG_20250915_235318_695.jpg') no-repeat center center fixed;
   background-size: cover;
-}
-  background-size: cover;
-
   text-align:center;
   overflow-x:hidden;
   overflow-y:hidden;
@@ -24,14 +21,13 @@ body {
   padding:40px 20px;
 }
 .card {
-  background: rgba(255,255,255,0.15);  /* semi-transparent white */
-  border-radius: 25px;                  /* rounded corners */
-  padding: 30px;                        /* inner spacing */
-  max-width: 450px;                     /* width of the box */
-  margin: auto;                         /* center horizontally */
-  box-shadow: 0 0 25px rgba(0,0,0,0.2); /* soft shadow */
+  background: rgba(255,255,255,0.15);
+  border-radius: 25px;
+  padding: 30px;
+  max-width: 450px;
+  margin: auto;
+  box-shadow: 0 0 25px rgba(0,0,0,0.2);
 }
-
 #countdown{
   font-size:2rem;
   font-weight:bold;
@@ -135,7 +131,6 @@ body {
   padding:10px 20px;
   border-radius:10px;
   cursor:pointer;
-  
 }
 </style>
 </head>
@@ -160,184 +155,119 @@ body {
 </div>
 
 <div id="birthdayMessage">🎉 Happy Birthday Barsha! 🎉</div>
+
 <!-- MUSIC -->
 <audio id="bgMusic" loop preload="auto">
   <source src="gutar.mp3" type="audio/mpeg">
 </audio>
 
 <script>
+// Play music
 document.getElementById("startMusicBtn").addEventListener("click", () => {
   const music = document.getElementById("bgMusic");
   music.volume = 0.9;
   music.play().catch(() => {});
   document.getElementById("musicPermission").style.display = "none";
 });
-</script>
 
+// References
+const countdown = document.getElementById('countdown');
+const excitedText = document.getElementById('excitedText');
+const birthdayMsg = document.getElementById('birthdayMessage');
 
-<script>
-// Tap-to-play music
-document.getElementById('startMusicBtn').addEventListener('click', function(){
-    document.getElementById('musicPermission').style.display = 'none';
-    var iframe = document.getElementById('bgVideo');
-    iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}','*');
-});
+// Set birthday date
+const birthday = new Date(2025, 11, 31, 0, 0, 0).getTime();
 
-// Countdown
-<script>
-// Set the birthday date
-var birthday = new Date(2025, 11, 31, 0, 0, 0).getTime(); // 31 Dec 2025
+// Countdown function
+let countdownFunction = setInterval(() => {
+  const now = new Date().getTime();
+  let distance = birthday - now;
 
-// Countdown function, runs every second
-var countdownFunction = setInterval(function() {
-    var now = new Date().getTime();
-    var distance = birthday - now;
+  const days = Math.max(0, Math.floor(distance / (1000*60*60*24)));
+  const hours = Math.max(0, Math.floor((distance % (1000*60*60*24))/(1000*60*60)));
+  const minutes = Math.max(0, Math.floor((distance % (1000*60*60))/(1000*60)));
+  const seconds = Math.max(0, Math.floor((distance % (1000*60))/1000));
 
-    // Calculate days, hours, minutes, seconds
-    var days = Math.max(0, Math.floor(distance / (1000 * 60 * 60 * 24)));
-    var hours = Math.max(0, Math.floor((distance % (1000*60*60*24)) / (1000*60*60)));
-    var minutes = Math.max(0, Math.floor((distance % (1000*60*60)) / (1000*60)));
-    var seconds = Math.max(0, Math.floor((distance % (1000*60)) / 1000));
+  countdown.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
 
-    // Display countdown
-    document.getElementById("countdown").innerHTML =
-        days + "d " + hours + "h " + minutes + "m " + seconds + "s";
-
-    // When countdown ends
-    if(distance <= 0){
-        clearInterval(countdownFunction);
-        fadeOutCountdown(); // fade out countdown & excitedText
-    }
+  if(distance <= 0){
+    clearInterval(countdownFunction);
+    fadeOutCountdown();
+  }
 }, 1000);
 
-// Function to fade out countdown and show birthday message
-function fadeOutCountdown() {
-    var countdown = document.getElementById("countdown");
-    var excited = document.getElementById("excitedText");
-    var opacity = 1;
-    var fadeInterval = setInterval(function(){
-        opacity -= 0.02;
-        countdown.style.opacity = opacity;
-        excited.style.opacity = opacity;
-        if(opacity <= 0){
-            clearInterval(fadeInterval);
-            countdown.style.display = 'none';
-            excited.style.display = 'none';
-            showBirthdayMessage();
-        }
-    }, 50); // ~3-4 seconds fade
-}
-
-// Function to show birthday message with animation
-function showBirthdayMessage(){
-    var msg = document.getElementById("birthdayMessage");
-    msg.style.display = 'block';
-    var bottom = -200; // start below the screen
-    var riseInterval = setInterval(function(){
-        bottom += 4; // move up
-        msg.style.bottom = bottom + 'px';
-        if(bottom >= window.innerHeight/2 - 50) clearInterval(riseInterval);
-    }, 20);
-
-    // Create multiple balloons
-    for(let i=0; i<20; i++){
-        createBalloon();
+// Fade out countdown
+function fadeOutCountdown(){
+  let opacity = 1;
+  const fadeInterval = setInterval(()=>{
+    opacity -= 0.02;
+    countdown.style.opacity = opacity;
+    excitedText.style.opacity = opacity;
+    if(opacity <= 0){
+      clearInterval(fadeInterval);
+      countdown.style.display = 'none';
+      excitedText.style.display = 'none';
+      showBirthdayMessage();
     }
+  }, 50);
 }
 
-// Floating hearts continuously
-function createHeart(){
-    var heart = document.createElement('div');
-    heart.className='heart';
-    heart.style.left = Math.random()*window.innerWidth + 'px';
-    heart.style.animationDuration = (3+Math.random()*3)+'s';
-    document.body.appendChild(heart);
-    setTimeout(()=>heart.remove(), 5000);
-}
-setInterval(createHeart, 300);
-
-// Balloons rising
-function createBalloon(){
-    var balloon = document.createElement('div');
-    balloon.className='balloon';
-    balloon.style.left = Math.random()*window.innerWidth + 'px';
-    balloon.style.animationDuration = (4+Math.random()*3)+'s';
-    document.body.appendChild(balloon);
-    setTimeout(()=>balloon.remove(), 8000);
-}
-</script>
-}
-
+// Show birthday message + balloons & hearts
 function showBirthdayMessage(){
-  birthdayMsg.style.display="block";
-  var pos=-200;
-  var id=setInterval(frame,10);
-  function frame(){
-    if(pos>=window.innerHeight/2-50){
-      clearInterval(id);
-    }else{
-      pos+=4;
-      birthdayMsg.style.bottom=pos+"px";
-    }
-  }
-  for(let i=0;i<10;i++){ createBalloon(); }
+  birthdayMsg.style.display = 'block';
+  let bottom = -200;
+  const riseInterval = setInterval(()=>{
+    bottom += 4;
+    birthdayMsg.style.bottom = bottom+'px';
+    if(bottom >= window.innerHeight/2 - 50) clearInterval(riseInterval);
+  }, 20);
+
+  for(let i=0; i<20; i++) createBalloon();
+  setInterval(createHeart, 300);
 }
 
-// Hearts & Balloons
+// Hearts
 function createHeart(){
-  var heart=document.createElement('div');
+  const heart = document.createElement('div');
   heart.className='heart';
-  heart.style.left=Math.random()*window.innerWidth+'px';
-  heart.style.animationDuration=(3+Math.random()*3)+'s';
+  heart.style.left = Math.random()*window.innerWidth+'px';
+  heart.style.animationDuration = (3+Math.random()*3)+'s';
   document.body.appendChild(heart);
   setTimeout(()=>heart.remove(),5000);
 }
-setInterval(createHeart,300);
 
+// Balloons
 function createBalloon(){
-  var balloon=document.createElement('div');
+  const balloon = document.createElement('div');
   balloon.className='balloon';
-  balloon.style.left=Math.random()*window.innerWidth+'px';
-  balloon.style.animationDuration=(5+Math.random()*5)+'s';
+  balloon.style.left = Math.random()*window.innerWidth+'px';
+  balloon.style.animationDuration = (4+Math.random()*3)+'s';
   document.body.appendChild(balloon);
   setTimeout(()=>balloon.remove(),8000);
 }
 
-// Countdown Timer
-var countdownFunction=setInterval(function(){
-  var now=new Date().getTime();
-  var distance=birthday-now;
+// TEST function: trigger birthday animation immediately
+function testCountdownEnd(){
+  clearInterval(countdownFunction);
+  countdown.innerHTML = "0d 0h 0m 0s";
+  fadeOutCountdown();
+}
 
-  var days=Math.floor(distance/(1000*60*60*24));
-  var hours=Math.floor((distance % (1000*60*60*24))/(1000*60*60));
-  var minutes=Math.floor((distance % (1000*60*60))/(1000*60));
-  var seconds=Math.floor((distance % (1000*60))/1000);
-
-  countdown.innerHTML=days+"d "+hours+"h "+minutes+"m "+seconds+"s ";
-
-  if(distance<=0){
-    clearInterval(countdownFunction);
-    endCountdown();
-  }
-},1000);
-
-// Lyrics syncing (example timestamps)
+// Lyrics example
 const lyricsDisplay = document.getElementById('lyricsDisplay');
-// Example timestamps in seconds
 const lyrics = [
   {time:0, text:"tere aas pass din sara"},
   {time:5, text:"tere aas pass din sara"},
   {time:10, text:"na jane kab me dil hara"},
   {time:15, text:"tune jana"},
-  {time:20, text:tune jana"}
+  {time:20, text:"tune jana"}
 ];
 
-// Simulate real-time lyrics for hidden YouTube video
 let lyricsInterval;
 document.getElementById('startMusicBtn').addEventListener('click', function(){
   let startTime = Date.now();
   lyricsInterval = setInterval(()=>{
-    let elapsed = (Date.now() - startTime)/1000; // seconds
+    let elapsed = (Date.now() - startTime)/1000;
     let currentLine = '';
     for(let i=0;i<lyrics.length;i++){
       if(elapsed >= lyrics[i].time){
@@ -348,12 +278,12 @@ document.getElementById('startMusicBtn').addEventListener('click', function(){
   },200);
 });
 
-// Ensure countdown visible first if page loads after birthday
+// On page load after birthday
 window.onload=function(){
-  var now=new Date().getTime();
+  const now=new Date().getTime();
   if(now>=birthday){
     countdown.innerHTML="0d 0h 0m 0s";
-    setTimeout(endCountdown,2000);
+    setTimeout(fadeOutCountdown,2000);
   }
 }
 </script>
