@@ -15,11 +15,13 @@ body {
   overflow-x:hidden;
   overflow-y:hidden;
 }
+
 .container{
   position:relative;
   z-index:1;
   padding:40px 20px;
 }
+
 .card {
   background: rgba(255,255,255,0.15);
   border-radius: 25px;
@@ -28,6 +30,7 @@ body {
   margin: auto;
   box-shadow: 0 0 25px rgba(0,0,0,0.2);
 }
+
 #countdown{
   font-size:2rem;
   font-weight:bold;
@@ -38,6 +41,7 @@ body {
   box-shadow:0 0 15px rgba(255,255,255,0.5);
   transition: opacity 4s;
 }
+
 #excitedText{
   font-family:'Great Vibes', cursive;
   font-size:1.6rem;
@@ -47,6 +51,16 @@ body {
   text-shadow:2px 2px 8px #ff69b4;
   transition: opacity 4s;
 }
+
+#waitingText{
+  font-family:'Pacifico', cursive;
+  font-size:2rem;
+  font-weight:bold;
+  color:#ffeb3b;
+  margin-top:15px;
+  text-shadow: 2px 2px 8px #ff1493;
+}
+
 #birthdayMessage{
   font-family:'Pacifico', cursive;
   font-size:3rem;
@@ -59,6 +73,7 @@ body {
   transform:translateX(-50%);
   z-index:10;
 }
+
 .heart{
   position:absolute;
   width:20px;
@@ -83,6 +98,7 @@ body {
   0%{transform:translateY(0) rotate(-45deg); opacity:0.8;}
   100%{transform:translateY(-700px) rotate(-45deg); opacity:0;}
 }
+
 .balloon{
   position:absolute;
   width:40px;
@@ -107,6 +123,7 @@ body {
   0%{bottom:-80px;}
   100%{bottom:90vh;}
 }
+
 .lyrics{
   font-style:italic;
   line-height:1.5;
@@ -116,7 +133,7 @@ body {
   color:white;
   text-shadow:1px 1px 5px #ff1493;
 }
-#surpriseBtn{display:none;}
+
 #musicPermission{
   position:fixed;
   top:0; left:0; width:100%; height:100%;
@@ -149,6 +166,7 @@ body {
     <div id="countdown">0d 0h 0m 0s</div>
     <div id="excitedText">Excited! Excited! Very very Excited!</div>
     <div class="lyrics" id="lyricsDisplay"></div>
+    <div id="waitingText">Waiting! Waiting!</div>
   </div>
 </div>
 
@@ -200,10 +218,12 @@ function fadeOutCountdown(){
     opacity -= 0.02;
     countdown.style.opacity = opacity;
     excitedText.style.opacity = opacity;
+    document.getElementById('waitingText').style.opacity = opacity;
     if(opacity <= 0){
       clearInterval(fadeInterval);
       countdown.style.display = 'none';
       excitedText.style.display = 'none';
+      document.getElementById('waitingText').style.display = 'none';
       showBirthdayMessage();
     }
   }, 50);
@@ -244,14 +264,12 @@ function createBalloon(){
 
 // Female lyrics
 const lyrics = [
-  {time: 0, text:"Tere aas pass din sara"},
-  {time: 4, text:"Tere aas pass din sara"},
-  {time: 9, text:"Na jaane kab main dil haara"},
-  {time: 13, text:"Tune jaana"},
-  {time: 17, text:"Dil mera le gaya"},
-  {time: 22, text:"Tere naino ke jaadu"},
-  {time: 26, text:"O… naina"},
-  {time: 30, text:"O… naina"}
+  {time: 0, text:"Tere Aas Paas Din Sara"},
+  {time: 3, text:"Na Jaana Kab Main Dil Hara"},
+  {time: 5, text:"Thoda Sa Tune Behkaya"},
+  {time: 8, text:"Behlaya Dil Ko Sehlaya"},
+  {time: 11, text:"Maine Jana Mujhme Tu Hai"},
+  {time: 14, text:"Dil Hai Nadaan Kaise Ab Kahein"}
 ];
 
 // Sync lyrics with music
@@ -270,13 +288,6 @@ document.getElementById('startMusicBtn').addEventListener('click', function(){
   },200);
 });
 
-// Test immediate countdown end
-function testCountdownEnd(){
-  clearInterval(countdownFunction);
-  countdown.innerHTML = "0d 0h 0m 0s";
-  fadeOutCountdown();
-}
-
 // Page load after birthday
 window.onload=function(){
   const now=new Date().getTime();
@@ -287,4 +298,4 @@ window.onload=function(){
 }
 </script>
 </body>
-</html>
+  </html>
