@@ -113,6 +113,8 @@ body {
   margin-top:20px;
   text-align:center;
   font-size:1rem;
+  color:white;
+  text-shadow:1px 1px 5px #ff1493;
 }
 #surpriseBtn{display:none;}
 #musicPermission{
@@ -136,7 +138,6 @@ body {
 </head>
 <body>
 
-<!-- Tap to play music overlay -->
 <div id="musicPermission">
   <h2>Tap to start the birthday music 🎵</h2>
   <button id="startMusicBtn">Play Music</button>
@@ -147,16 +148,12 @@ body {
   <div class="card">
     <div id="countdown">0d 0h 0m 0s</div>
     <div id="excitedText">Excited! Excited! Very very Excited!</div>
-    <button id="surpriseBtn">Click for Surprise 🎁</button>
-    <div class="lyrics" id="lyricsDisplay">
-      <!-- Lyrics will update here in real-time -->
-    </div>
+    <div class="lyrics" id="lyricsDisplay"></div>
   </div>
 </div>
 
 <div id="birthdayMessage">🎉 Happy Birthday Barsha! 🎉</div>
 
-<!-- MUSIC -->
 <audio id="bgMusic" loop preload="auto">
   <source src="gutar.mp3" type="audio/mpeg">
 </audio>
@@ -170,19 +167,19 @@ document.getElementById("startMusicBtn").addEventListener("click", () => {
   document.getElementById("musicPermission").style.display = "none";
 });
 
-// References
+// Elements
 const countdown = document.getElementById('countdown');
 const excitedText = document.getElementById('excitedText');
 const birthdayMsg = document.getElementById('birthdayMessage');
+const lyricsDisplay = document.getElementById('lyricsDisplay');
 
-// Set birthday date
+// Birthday date
 const birthday = new Date(2025, 11, 31, 0, 0, 0).getTime();
 
-// Countdown function
+// Countdown
 let countdownFunction = setInterval(() => {
   const now = new Date().getTime();
   let distance = birthday - now;
-
   const days = Math.max(0, Math.floor(distance / (1000*60*60*24)));
   const hours = Math.max(0, Math.floor((distance % (1000*60*60*24))/(1000*60*60)));
   const minutes = Math.max(0, Math.floor((distance % (1000*60*60))/(1000*60)));
@@ -212,7 +209,7 @@ function fadeOutCountdown(){
   }, 50);
 }
 
-// Show birthday message + balloons & hearts
+// Birthday animation
 function showBirthdayMessage(){
   birthdayMsg.style.display = 'block';
   let bottom = -200;
@@ -221,48 +218,43 @@ function showBirthdayMessage(){
     birthdayMsg.style.bottom = bottom+'px';
     if(bottom >= window.innerHeight/2 - 50) clearInterval(riseInterval);
   }, 20);
-
-  for(let i=0; i<20; i++) createBalloon();
+  for(let i=0;i<20;i++) createBalloon();
   setInterval(createHeart, 300);
 }
 
 // Hearts
 function createHeart(){
-  const heart = document.createElement('div');
+  const heart=document.createElement('div');
   heart.className='heart';
-  heart.style.left = Math.random()*window.innerWidth+'px';
-  heart.style.animationDuration = (3+Math.random()*3)+'s';
+  heart.style.left=Math.random()*window.innerWidth+'px';
+  heart.style.animationDuration=(3+Math.random()*3)+'s';
   document.body.appendChild(heart);
   setTimeout(()=>heart.remove(),5000);
 }
 
 // Balloons
 function createBalloon(){
-  const balloon = document.createElement('div');
+  const balloon=document.createElement('div');
   balloon.className='balloon';
-  balloon.style.left = Math.random()*window.innerWidth+'px';
-  balloon.style.animationDuration = (4+Math.random()*3)+'s';
+  balloon.style.left=Math.random()*window.innerWidth+'px';
+  balloon.style.animationDuration=(4+Math.random()*3)+'s';
   document.body.appendChild(balloon);
   setTimeout(()=>balloon.remove(),8000);
 }
 
-// TEST function: trigger birthday animation immediately
-function testCountdownEnd(){
-  clearInterval(countdownFunction);
-  countdown.innerHTML = "0d 0h 0m 0s";
-  fadeOutCountdown();
-}
-
-// Lyrics example
-const lyricsDisplay = document.getElementById('lyricsDisplay');
+// Female lyrics
 const lyrics = [
-  {time:0, text:"tere aas pass din sara"},
-  {time:5, text:"tere aas pass din sara"},
-  {time:10, text:"na jane kab me dil hara"},
-  {time:15, text:"tune jana"},
-  {time:20, text:"tune jana"}
+  {time: 0, text:"Tere aas pass din sara"},
+  {time: 4, text:"Tere aas pass din sara"},
+  {time: 9, text:"Na jaane kab main dil haara"},
+  {time: 13, text:"Tune jaana"},
+  {time: 17, text:"Dil mera le gaya"},
+  {time: 22, text:"Tere naino ke jaadu"},
+  {time: 26, text:"O… naina"},
+  {time: 30, text:"O… naina"}
 ];
 
+// Sync lyrics with music
 let lyricsInterval;
 document.getElementById('startMusicBtn').addEventListener('click', function(){
   let startTime = Date.now();
@@ -278,7 +270,14 @@ document.getElementById('startMusicBtn').addEventListener('click', function(){
   },200);
 });
 
-// On page load after birthday
+// Test immediate countdown end
+function testCountdownEnd(){
+  clearInterval(countdownFunction);
+  countdown.innerHTML = "0d 0h 0m 0s";
+  fadeOutCountdown();
+}
+
+// Page load after birthday
 window.onload=function(){
   const now=new Date().getTime();
   if(now>=birthday){
