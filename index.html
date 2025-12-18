@@ -177,19 +177,12 @@ body {
 </audio>
 
 <script>
-// Play music
-document.getElementById("startMusicBtn").addEventListener("click", () => {
-  const music = document.getElementById("bgMusic");
-  music.volume = 0.9;
-  music.play().catch(() => {});
-  document.getElementById("musicPermission").style.display = "none";
-});
-
 // Elements
 const countdown = document.getElementById('countdown');
 const excitedText = document.getElementById('excitedText');
 const birthdayMsg = document.getElementById('birthdayMessage');
 const lyricsDisplay = document.getElementById('lyricsDisplay');
+const music = document.getElementById('bgMusic');
 
 // Birthday date
 const birthday = new Date(2025, 11, 31, 0, 0, 0).getTime();
@@ -272,12 +265,13 @@ const lyrics = [
   {time: 14, text:"Dil Hai Nadaan Kaise Ab Kahein"}
 ];
 
-// Sync lyrics with music
-let lyricsInterval;
+// Sync lyrics with music using currentTime
 document.getElementById('startMusicBtn').addEventListener('click', function(){
-  let startTime = Date.now();
-  lyricsInterval = setInterval(()=>{
-    let elapsed = (Date.now() - startTime)/1000;
+  music.play().catch(()=>{});
+  document.getElementById('musicPermission').style.display = 'none';
+
+  setInterval(() => {
+    const elapsed = music.currentTime; // use music currentTime
     let currentLine = '';
     for(let i=0;i<lyrics.length;i++){
       if(elapsed >= lyrics[i].time){
@@ -285,7 +279,7 @@ document.getElementById('startMusicBtn').addEventListener('click', function(){
       }
     }
     lyricsDisplay.innerHTML = currentLine;
-  },200);
+  }, 200);
 });
 
 // Page load after birthday
@@ -298,4 +292,4 @@ window.onload=function(){
 }
 </script>
 </body>
-  </html>
+</html>
