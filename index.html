@@ -156,11 +156,20 @@ body {
 </div>
 
 <div id="birthdayMessage">🎉 Happy Birthday Barsha! 🎉</div>
+<!-- MUSIC -->
+<audio id="bgMusic" loop preload="auto">
+  <source src="gutar.mp3" type="audio/mpeg">
+</audio>
 
-<!-- Hidden YouTube video for music -->
-<iframe id="bgVideo" width="0" height="0"
-src="https://www.youtube.com/embed/YOUR_VIDEO_ID?loop=1&playlist=YOUR_VIDEO_ID&controls=0&modestbranding=1&rel=0"
-frameborder="0" allow="autoplay; encrypted-media" allowfullscreen style="display:none;"></iframe>
+<script>
+document.getElementById("startMusicBtn").addEventListener("click", () => {
+  const music = document.getElementById("bgMusic");
+  music.volume = 0.9;
+  music.play().catch(() => {});
+  document.getElementById("musicPermission").style.display = "none";
+});
+</script>
+
 
 <script>
 // Tap-to-play music
@@ -239,11 +248,11 @@ var countdownFunction=setInterval(function(){
 const lyricsDisplay = document.getElementById('lyricsDisplay');
 // Example timestamps in seconds
 const lyrics = [
-  {time:0, text:"Naina, jo teri dekhi"},
-  {time:5, text:"Naina, jo teri dekhi"},
-  {time:10, text:"Mera dil, mera dil"},
-  {time:15, text:"Ek pal bhi, ek pal bhi"},
-  {time:20, text:"Chain na aaye"}
+  {time:0, text:"tere aas pass din sara"},
+  {time:5, text:"tere aas pass din sara"},
+  {time:10, text:"na jane kab me dil hara"},
+  {time:15, text:"tune jana"},
+  {time:20, text:tune jana"}
 ];
 
 // Simulate real-time lyrics for hidden YouTube video
