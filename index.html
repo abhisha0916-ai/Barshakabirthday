@@ -184,15 +184,88 @@ document.getElementById('startMusicBtn').addEventListener('click', function(){
 });
 
 // Countdown
-var birthday = new Date(2025, 11, 31, 0, 0, 0).getTime();
-var countdown = document.getElementById("countdown");
-var excited = document.getElementById("excitedText");
-var birthdayMsg = document.getElementById("birthdayMessage");
+<script>
+// Set the birthday date
+var birthday = new Date(2025, 11, 31, 0, 0, 0).getTime(); // 31 Dec 2025
 
-function endCountdown(){
-  countdown.style.opacity=0;
-  excited.style.opacity=0;
-  setTimeout(showBirthdayMessage,4000);
+// Countdown function, runs every second
+var countdownFunction = setInterval(function() {
+    var now = new Date().getTime();
+    var distance = birthday - now;
+
+    // Calculate days, hours, minutes, seconds
+    var days = Math.max(0, Math.floor(distance / (1000 * 60 * 60 * 24)));
+    var hours = Math.max(0, Math.floor((distance % (1000*60*60*24)) / (1000*60*60)));
+    var minutes = Math.max(0, Math.floor((distance % (1000*60*60)) / (1000*60)));
+    var seconds = Math.max(0, Math.floor((distance % (1000*60)) / 1000));
+
+    // Display countdown
+    document.getElementById("countdown").innerHTML =
+        days + "d " + hours + "h " + minutes + "m " + seconds + "s";
+
+    // When countdown ends
+    if(distance <= 0){
+        clearInterval(countdownFunction);
+        fadeOutCountdown(); // fade out countdown & excitedText
+    }
+}, 1000);
+
+// Function to fade out countdown and show birthday message
+function fadeOutCountdown() {
+    var countdown = document.getElementById("countdown");
+    var excited = document.getElementById("excitedText");
+    var opacity = 1;
+    var fadeInterval = setInterval(function(){
+        opacity -= 0.02;
+        countdown.style.opacity = opacity;
+        excited.style.opacity = opacity;
+        if(opacity <= 0){
+            clearInterval(fadeInterval);
+            countdown.style.display = 'none';
+            excited.style.display = 'none';
+            showBirthdayMessage();
+        }
+    }, 50); // ~3-4 seconds fade
+}
+
+// Function to show birthday message with animation
+function showBirthdayMessage(){
+    var msg = document.getElementById("birthdayMessage");
+    msg.style.display = 'block';
+    var bottom = -200; // start below the screen
+    var riseInterval = setInterval(function(){
+        bottom += 4; // move up
+        msg.style.bottom = bottom + 'px';
+        if(bottom >= window.innerHeight/2 - 50) clearInterval(riseInterval);
+    }, 20);
+
+    // Create multiple balloons
+    for(let i=0; i<20; i++){
+        createBalloon();
+    }
+}
+
+// Floating hearts continuously
+function createHeart(){
+    var heart = document.createElement('div');
+    heart.className='heart';
+    heart.style.left = Math.random()*window.innerWidth + 'px';
+    heart.style.animationDuration = (3+Math.random()*3)+'s';
+    document.body.appendChild(heart);
+    setTimeout(()=>heart.remove(), 5000);
+}
+setInterval(createHeart, 300);
+
+// Balloons rising
+function createBalloon(){
+    var balloon = document.createElement('div');
+    balloon.className='balloon';
+    balloon.style.left = Math.random()*window.innerWidth + 'px';
+    balloon.style.animationDuration = (4+Math.random()*3)+'s';
+    document.body.appendChild(balloon);
+    setTimeout(()=>balloon.remove(), 8000);
+}
+</script>
 }
 
 function showBirthdayMessage(){
